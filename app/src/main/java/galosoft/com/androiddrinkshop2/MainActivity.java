@@ -152,6 +152,8 @@ public class MainActivity extends AppCompatActivity {
                                             public void onResponse(Call<User> call, Response<User> response) {
                                                 //start new activity
                                                 alertDialog.dismiss();
+                                                //Fixed the first time
+                                                Common.currentUser = response.body();
                                                 startActivity(new Intent(MainActivity.this, HomeActivity.class));
                                                 finish();
                                             }

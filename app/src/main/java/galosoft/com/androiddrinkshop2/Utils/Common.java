@@ -1,5 +1,6 @@
 package galosoft.com.androiddrinkshop2.Utils;
 
+import galosoft.com.androiddrinkshop2.Model.Category;
 import galosoft.com.androiddrinkshop2.Model.User;
 import galosoft.com.androiddrinkshop2.Retrofit.IDrinkShopAPI;
 import galosoft.com.androiddrinkshop2.Retrofit.RetrofitClient;
@@ -11,6 +12,7 @@ public class Common {
     public static final String TOPPING_MENU_ID = "7";
 
     public static User currentUser = null;
+    public static Category currentCategory = null;
 
     public static IDrinkShopAPI getAPI() {
         return RetrofitClient.getClient(BASE_URL).create(IDrinkShopAPI.class);

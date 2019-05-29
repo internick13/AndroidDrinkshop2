@@ -3,7 +3,9 @@ package galosoft.com.androiddrinkshop2.Retrofit;
 import java.util.List;
 
 import galosoft.com.androiddrinkshop2.Model.Banner;
+import galosoft.com.androiddrinkshop2.Model.Category;
 import galosoft.com.androiddrinkshop2.Model.CheckUserResponse;
+import galosoft.com.androiddrinkshop2.Model.Drink;
 import galosoft.com.androiddrinkshop2.Model.User;
 import io.reactivex.Observable;
 import retrofit2.Call;
@@ -34,14 +36,16 @@ public interface IDrinkShopAPI {
     @GET("getbanner.php")
     Observable<List<Banner>> getBanners();
 
-    /*
+    @GET("getmenu.php")
+    Observable<List<Category>> getMenu();
+
+
     @FormUrlEncoded
     @POST("getdrink.php")
     Observable<List<Drink>> getDrink(@Field("menuId") String menuID);
 
-    @GET("getmenu.php")
-    Observable<List<Category>> getMenu();
 
+   /*
     @Multipart
     @POST("upload.php")
     Call<String> uploadFile(@Part MultipartBody.Part phone, @Part MultipartBody.Part file);

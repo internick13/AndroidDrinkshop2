@@ -3,6 +3,8 @@ package galosoft.com.androiddrinkshop2;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -21,7 +23,9 @@ import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import java.util.HashMap;
 import java.util.List;
 
+import galosoft.com.androiddrinkshop2.Adapter.CategoryAdapter;
 import galosoft.com.androiddrinkshop2.Model.Banner;
+import galosoft.com.androiddrinkshop2.Model.Category;
 import galosoft.com.androiddrinkshop2.Retrofit.IDrinkShopAPI;
 import galosoft.com.androiddrinkshop2.Utils.Common;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -35,6 +39,7 @@ public class HomeActivity extends AppCompatActivity
     TextView txt_name, txt_phone;
     SliderLayout sliderLayout;
     IDrinkShopAPI mService;
+    RecyclerView lst_menu;
     //RX java
     CompositeDisposable compositeDisposable = new CompositeDisposable();
 
@@ -47,6 +52,10 @@ public class HomeActivity extends AppCompatActivity
 
         mService = Common.getAPI();
         sliderLayout = findViewById(R.id.slider);
+
+        lst_menu = findViewById(R.id.lst_menu);
+        lst_menu.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        lst_menu.setHasFixedSize(true);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -77,6 +86,10 @@ public class HomeActivity extends AppCompatActivity
 
         //get banner
         getBannerImage();
+
+        //getMenu
+        getMenu();
+
     }
 
     private void getBannerImage() {
@@ -89,6 +102,25 @@ public class HomeActivity extends AppCompatActivity
                         displayImage(banners);
                     }
                 }));
+    }
+
+    private void getMenu() {
+        compositeDisposable.add(mService.getMenu()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<List<Category>>() {
+                    @Override
+                    public void accept(List<Category> categories) throws Exception {
+                        displayMenu(categories);
+                    }
+                }));
+    }
+
+    private void displayMenu(List<Category> categories) {
+
+        CategoryAdapter adapter = new CategoryAdapter(this, categories);
+        lst_menu.setAdapter(adapter);
+
     }
 
     @Override
